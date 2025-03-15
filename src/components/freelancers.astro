@@ -1,0 +1,33 @@
+---
+// @ts-ignore
+import { Icon } from "astro-icon/components";
+import fetchApi from '../lib/strapi';
+import type Freelancer from '../interfaces/freelancer';
+
+const freelancers = await fetchApi<Freelancer[]>({
+  endpoint: 'freelancers?populate=*', // the content type to fetch
+  wrappedByKey: 'data', // the key to unwrap the response
+});
+---
+
+<div class="mt-16 md:mt-0">
+  <h2 class="text-4xl lg:text-5xl font-bold lg:tracking-tight">
+    Our amazing freelancers
+  </h2>
+  <p class="text-lg mt-4 text-slate-600">
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sed consectetur lacus, at interdum neque. Duis bibendum nisl a vestibulum facilisis.
+  </p>
+</div>
+
+<div class="grid sm:grid-cols-2 md:grid-cols-3 mt-16 gap-16">
+  {
+    freelancers.length > 0 ? freelancers.map((freelancer) => (
+      <div class="flex gap-4 items-start">
+        <div>
+          <h3 class="font-semibold text-lg">{freelancer.Name}</h3>{" "}
+          <p class="text-slate-500 mt-2 leading-relaxed">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sed consectetur lacus, at interdum neque. Duis bibendum nisl a vestibulum facilisis.</p>
+        </div>
+      </div>
+    )) : <div>No freelancers available</div>
+  }
+</div>
