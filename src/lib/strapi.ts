@@ -41,5 +41,5 @@ export default async function fetchApi<T>({
       data = data[0];
     }
   
-    return data as T;
+    return (data || []) as T;
 }

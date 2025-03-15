@@ -21,7 +21,7 @@ const freelancers = await fetchApi<Freelancer[]>({
 
 <div class="grid sm:grid-cols-2 md:grid-cols-3 mt-16 gap-16">
   {
-    freelancers.length > 0 ? freelancers.map((freelancer) => (
+    freelancers.map((freelancer) => (
       <div class="flex gap-4 items-start">
         <div>
           <h3 class="font-semibold text-lg">{freelancer.Name}</h3>{" "}
