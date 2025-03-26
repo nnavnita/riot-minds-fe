@@ -2,7 +2,7 @@
 import Link from "@/components/ui/link.astro";
 import { fetchApi, fetchAsset } from '../lib/strapi';
 
-const content = await fetchApi<Freelancer[]>({
+const content = await fetchApi<Hero>({
   endpoint: 'hero?populate=*', // the content type to fetch
   wrappedByKey: 'data', // the key to unwrap the response
 });

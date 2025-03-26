@@ -1,31 +1,34 @@
 ---
 // @ts-ignore
 import { Icon } from "astro-icon/components";
-import { fetchApi } from '../lib/strapi';
+import { fetchApi, fetchAsset } from '../lib/strapi';
 import type Freelancer from '../interfaces/freelancer';
+import Link from "@/components/ui/link.astro";
+import Sectionhead from "@/components/sectionhead.astro";
 
 const freelancers = await fetchApi<Freelancer[]>({
   endpoint: 'freelancers?populate=*', // the content type to fetch
   wrappedByKey: 'data', // the key to unwrap the response
 });
 ---
-
-<div class="mt-16 md:mt-0">
-  <h2 class="text-4xl lg:text-5xl font-bold lg:tracking-tight">
-    Our amazing freelancers
-  </h2>
-  <p class="text-lg mt-4 text-slate-600">
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sed consectetur lacus, at interdum neque. Duis bibendum nisl a vestibulum facilisis.
-  </p>
-</div>
-
 <div class="grid sm:grid-cols-2 md:grid-cols-3 mt-16 gap-16">
   {
     freelancers.map((freelancer) => (
       <div class="flex gap-4 items-start">
         <div>
+          <img src={fetchAsset(freelancer.Avatar.url)} height="500rem" width="250rem" />
           <h3 class="font-semibold text-lg">{freelancer.Name}</h3>{" "}
-          <p class="text-slate-500 mt-2 leading-relaxed">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sed consectetur lacus, at interdum neque. Duis bibendum nisl a vestibulum facilisis.</p>
+          <table width="100%">
+          <tr><th>Role:</th><td>{freelancer.Role}</td></tr>
+          <tr><th>Location:</th><td>{freelancer.Location}</td></tr>
+          <tr><th>Rate:</th><td>&#8377;{freelancer.RatePerUnit}/{freelancer.Unit}</td></tr>
+          <tr><th>Availability:</th><td>{freelancer.WorkingHoursPerDay} hours per day</td></tr>
+          <tr><th>Attachment(s):</th><td>{freelancer.Docs.map((doc) =>
+            <a href={fetchAsset(doc.url)} target="_blank" style={{ color: "#0077B6", textDecoration: "underline" }}>
+            Click here to view.
+            </a><br />
+          )}</td></tr>
+          </table>
         </div>
       </div>
     ))

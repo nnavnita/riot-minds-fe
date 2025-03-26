@@ -4,7 +4,7 @@ import Container from "@/components/container.astro";
 import Sectionhead from "@/components/sectionhead.astro";
 import { fetchApi, fetchAsset } from '../lib/strapi';
 
-const content = await fetchApi<Freelancer[]>({
+const content = await fetchApi<About>({
   endpoint: 'about?populate=*', // the content type to fetch
   wrappedByKey: 'data', // the key to unwrap the response
 });

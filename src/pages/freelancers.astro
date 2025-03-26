@@ -3,14 +3,25 @@ import Layout from "@/layouts/Layout.astro";
 import Container from "@/components/container.astro";
 import Sectionhead from "@/components/sectionhead.astro";
 import Freelancers from "@/components/freelancers.astro";
+import { fetchApi } from '../lib/strapi';
+
+const content = await fetchApi<FreelancerContent>({
+  endpoint: 'freelancer-content?populate=*', // the content type to fetch
+  wrappedByKey: 'data', // the key to unwrap the response
+});
 ---
 
 <Layout title="Freelancers">
   <Container>
     <Sectionhead>
-      <Fragment slot="title">Freelancers</Fragment>
-      <Fragment slot="desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Fragment>
+      <Fragment slot="title">{content.Title}</Fragment>
+      <Fragment slot="desc">{content.Subtitle}</Fragment>
     </Sectionhead>
+    <div class="flex flex-col gap-3 mx-auto max-w-4xl mt-16">
+      <p class="text-lg leading-relaxed text-slate-500">
+        {content.Content}
+      </p>
+    </div>
     <Freelancers />
   </Container>
 </Layout>
