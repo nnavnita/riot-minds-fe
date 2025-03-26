@@ -1,7 +1,7 @@
 ---
 // @ts-ignore
 import { Icon } from "astro-icon/components";
-import fetchApi from '../lib/strapi';
+import { fetchApi } from '../lib/strapi';
 import type Freelancer from '../interfaces/freelancer';
 
 const freelancers = await fetchApi<Freelancer[]>({

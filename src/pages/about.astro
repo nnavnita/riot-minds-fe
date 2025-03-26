@@ -2,22 +2,31 @@
 import Layout from "@/layouts/Layout.astro";
 import Container from "@/components/container.astro";
 import Sectionhead from "@/components/sectionhead.astro";
+import { fetchApi, fetchAsset } from '../lib/strapi';
+
+const content = await fetchApi<Freelancer[]>({
+  endpoint: 'about?populate=*', // the content type to fetch
+  wrappedByKey: 'data', // the key to unwrap the response
+});
 ---
 
 <Layout title="About">
   <Container>
     <Sectionhead>
-      <Fragment slot="title">About</Fragment>
-      <Fragment slot="desc">We are a small passionate team.</Fragment>
+      <Fragment slot="title">{content.Title}</Fragment>
+      <Fragment slot="desc">{content.Subtitle}</Fragment>
     </Sectionhead>
 
     <div class="flex flex-col gap-3 mx-auto max-w-4xl mt-16">
-      <h2 class="font-bold text-3xl text-gray-800">
-        Lorem ipsum dolor sit amet
-      </h2>
       <p class="text-lg leading-relaxed text-slate-500">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sed consectetur lacus, at interdum neque. Duis bibendum nisl a vestibulum facilisis. Phasellus ultrices pulvinar dolor. Phasellus ornare molestie felis, fringilla molestie leo. Nulla condimentum massa nec feugiat varius. Vestibulum ac enim malesuada, iaculis dolor quis, sollicitudin ligula. Proin imperdiet viverra tellus eu suscipit.
+        {content.Content}
       </p>
+      <div class="flex flex-row mx-auto max-w-4xl mt-16">
+        {
+          content.Images.map((i) => 
+            <img src={fetchAsset(i.url)} height="500rem" width="500rem" />)
+        }
+      </div>
     </div>
   </Container>
 </Layout>

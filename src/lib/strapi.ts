@@ -13,7 +13,7 @@ interface Props {
    * @param wrappedByList - If the response is a list, unwrap it
    * @returns
    */
-export default async function fetchApi<T>({
+export async function fetchApi<T>({
     endpoint,
     query,
     wrappedByKey,
@@ -42,4 +42,16 @@ export default async function fetchApi<T>({
     }
   
     return (data || []) as T;
+}
+
+  /**
+   * Constructs a string for an asset from the Strapi Upload Store
+   */
+export function fetchAsset(endpoint: string): string {
+  
+  if (endpoint.startsWith('/')) {
+    endpoint = endpoint.slice(1);
+  }
+
+  return `${import.meta.env.STRAPI_URL}/${endpoint}`;
 }
